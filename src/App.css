@@ -1,0 +1,260 @@
+/* src/App.css */
+
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Styling the sticky header */
+.sticky-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white; /* White background */
+  color: #333; /* Dark text color */
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.sticky-header .left {
+  font-size: 16px;
+}
+
+.sticky-header .right a {
+  color: #333; /* Dark text for navigation */
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+.sticky-header .right a:hover {
+  text-decoration: underline;
+}
+
+/* Hero Section Styles */
+.hero-container {
+  background-color: royalblue; /* Royal blue background */
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: white; /* White text for title */
+}
+
+.hero-text p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+  color: white; /* White text for slogan */
+}
+
+.explore-button {
+  background-color: white;
+  color: royalblue;
+  padding: 15px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.explore-button:hover {
+  background-color: #f0f0f0;
+}
+
+/* Professional Services Section */
+.professional-services {
+  padding: 40px 20px;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+.professional-services h2 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.professional-services p {
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.service-box {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.service-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: royalblue;
+}
+
+.service-box ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.service-box ul li {
+  font-size: 1.2rem;
+  margin: 8px 0;
+  color: #333;
+}
+
+.service-box p {
+  font-size: 1.1rem;
+  margin-top: 20px;
+  color: royalblue;
+}
+
+@media (max-width: 768px) {
+  .sticky-header {
+    padding: 15px 10px;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .hero-text p {
+    font-size: 1.2rem;
+  }
+
+  .sticky-header .right {
+    display: none;
+  }
+
+  .hamburger-menu {
+    display: block;
+    cursor: pointer;
+  }
+
+  .hamburger-menu .line {
+    width: 25px;
+    height: 3px;
+    background-color: royalblue;
+    margin: 5px;
+  }
+
+  .right.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .right.open a {
+    margin: 10px 0;
+    font-size: 1.2rem;
+  }
+}
+
+/* Larger screen sizes */
+@media (min-width: 1024px) {
+  .sticky-header {
+    padding: 15px 20px;
+  }
+
+  .hamburger-menu {
+    display: none;
+  }
+}
+
+/* Professional Services Section */
+.professional-services {
+  padding: 40px 20px;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+.professional-services h2 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.professional-services p {
+  font-size: 1.5rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+/* Services Grid Layout */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Individual Service Box */
+.service-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.service-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.service-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: royalblue;
+}
+
+.service-box ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.service-box ul li {
+  font-size: 1.2rem;
+  margin: 8px 0;
+  color: #333;
+}
+
+.service-box .whatsapp-link {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.whatsapp-icon {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

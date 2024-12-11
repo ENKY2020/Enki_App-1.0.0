@@ -1,0 +1,73 @@
+/* Contact Us CSS */
+.contact-us-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0;
+    padding: 0 20px;
+  }
+  
+  .contact-box {
+    width: 48%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contact-info {
+    background-color: royalblue;
+    color: white;
+  }
+  
+  .contact-info h2 {
+    margin-bottom: 10px;
+  }
+  
+  .contact-info p {
+    margin: 5px 0;
+  }
+  
+  .contact-info a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .contact-whatsapp {
+    background-color: #f4f9fc;
+    color: #333;
+  }
+  
+  .contact-whatsapp h2 {
+    margin-bottom: 10px;
+  }
+  
+  .whatsapp-button {
+    background-color: #25d366;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    width: 100%;
+    font-size: 18px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+  }
+  
+  .whatsapp-button:hover {
+    background-color: #128c7e;
+  }
+  
+  .contact-whatsapp p {
+    margin: 10px 0;
+    font-weight: bold;
+  }
+  
+  .contact-whatsapp ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .contact-whatsapp li {
+    margin: 5px 0;
+  }
+  

@@ -1,0 +1,48 @@
+/* Podcast Section Styles */
+.podcast-section {
+    background-color: #000000; /* Black Background */
+    color: #90EE90; /* Light Green Text */
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  /* Podcast Header */
+  .podcast-header h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .podcast-header p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+  /* YouTube Embed */
+  .youtube-embed iframe {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+  }
+  
+  /* Subscribe Button */
+  .subscribe-button {
+    margin-top: 20px;
+  }
+  
+  .subscribe-btn {
+    background-color: #90EE90; /* Light Green */
+    color: #000000; /* Black Text */
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  
+  .subscribe-btn:hover {
+    background-color: #76c76a; /* Darker Green */
+  }
+  

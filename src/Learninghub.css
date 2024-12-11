@@ -1,0 +1,95 @@
+/* LearningHub CSS */
+.learninghub-container {
+    padding: 20px;
+    background-color: #f4f9fc;
+  }
+  
+  .learninghub-header {
+    text-align: center;
+  }
+  
+  .learninghub-features {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .feature-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feature-box h3 {
+    color: #0056b3;
+  }
+  
+  .feature-box p {
+    color: #555;
+  }
+  
+  .featured-courses {
+    margin-top: 40px;
+  }
+  
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .course-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .purchase-button {
+    background-color: #0056b3;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .purchase-button:hover {
+    background-color: #003d80;
+  }
+  
+  .learninghub-dashboard {
+    margin-top: 40px;
+  }
+  
+  .dashboard-courses {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  
+  .dashboard-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 45%;
+  }
+  
+  .view-course-button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .view-course-button:hover {
+    background-color: #218838;
+  }
+  
