@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './LearningHub.css'; // Import the corresponding CSS file
+import './Learninghub.css'; // Import the corresponding CSS file
 
 // LearningHub Component
 function LearningHub() {
