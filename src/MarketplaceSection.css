@@ -2,25 +2,29 @@
 .marketplace-container {
   font-family: Arial, sans-serif;
   padding: 20px;
-  background-color: #f4f4f4;
+  background-color: #f9f9f9;
+  color: #333;
 }
 
 /* Header Section */
 .marketplace-header {
-  background-color: #FF6F00; /* Orange */
-  color: rgba(20, 15, 164, 0.902);
+  background-color: #FF6F00; /* Vibrant Orange */
+  color: white;
+  text-align: center;
   padding: 20px;
   border-radius: 10px;
-  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .marketplace-header h1 {
   font-size: 2.5rem;
   font-weight: bold;
-  text-transform: uppercase;
+  margin: 0;
 }
 
 .marketplace-header .promo-button {
+  margin-top: 10px;
   background-color: #1E88E5; /* Bold Blue */
   color: white;
   padding: 10px 20px;
@@ -28,6 +32,7 @@
   font-size: 1rem;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .marketplace-header .promo-button:hover {
@@ -44,7 +49,7 @@
 .shop-button,
 .sell-button {
   padding: 15px 30px;
-  background-color: #FF6F00; /* Orange */
+  background-color: #FF6F00;
   border-radius: 10px;
   color: white;
   font-weight: bold;
@@ -52,6 +57,7 @@
   border: none;
   cursor: pointer;
   font-size: 1.2rem;
+  transition: background-color 0.3s;
 }
 
 .shop-button:hover,
@@ -63,11 +69,12 @@
 .filters {
   margin-bottom: 20px;
   display: flex;
-  gap: 20px;
-  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
 }
 
 .filters select {
+  flex: 1;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -87,16 +94,30 @@
   padding: 15px;
   border-radius: 10px;
   background-color: #fff;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 .product-card h3 {
-  color: #1E88E5; /* Bold Blue */
+  color: #1E88E5;
   font-weight: bold;
+  margin: 0 0 10px;
 }
 
 .product-card p {
-  color: #333;
+  margin: 5px 0;
 }
 
 /* Add Product Form */
@@ -105,15 +126,18 @@
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .add-product-form h2 {
-  color: #FF6F00; /* Orange */
+  color: #FF6F00;
   font-size: 1.8rem;
+  margin-bottom: 20px;
 }
 
 .add-product-form input,
 .add-product-form select {
+  width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -122,41 +146,29 @@
 }
 
 .add-product-form button {
+  width: 100%;
   padding: 10px 20px;
-  background-color: #FF6F00; /* Orange */
+  background-color: #FF6F00;
   color: white;
   font-weight: bold;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1.1rem;
+  transition: background-color 0.3s;
 }
 
 .add-product-form button:hover {
   background-color: #e65100;
 }
 
-/* Hamburger Menu */
-.hamburger-menu {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
+.image-preview img {
+  max-width: 100%;
+  border-radius: 5px;
 }
 
-.hamburger-menu div {
-  width: 30px;
-  height: 3px;
-  background-color: #333;
-  border-radius: 3px;
-}
-
-/* Mobile Responsive Styles */
+/* Responsive Styles */
 @media (max-width: 768px) {
-  .marketplace-header h1 {
-    font-size: 2rem;
-  }
-
   .action-buttons {
     flex-direction: column;
     gap: 15px;
@@ -165,17 +177,4 @@
   .product-listing {
     grid-template-columns: 1fr;
   }
-
-  .hamburger-menu {
-    display: flex;
-  }
-}
-
-/* Styles for Promo Button */
-.promo-button {
-  background-color: #1E88E5; /* Bold Blue */
-}
-
-.promo-button:hover {
-  background-color: #1565C0;
 }
