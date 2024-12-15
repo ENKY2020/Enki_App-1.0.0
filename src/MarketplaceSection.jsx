@@ -1,157 +1,68 @@
-import React, { useState } from 'react';
-import './MarketplaceSection.css'; // Moving inline styles to a dedicated CSS file
+import React, { useState, useEffect } from "react";
+import "./marketplace-section.css";
+import { supabase } from "../supabaseClient"; // Ensure this is correctly configured
 
-const Marketplace = () => {
+const MarketplaceSection = () => {
   const [products, setProducts] = useState([]);
-  const [newProduct, setNewProduct] = useState({
-    name: '',
-    category: '',
-    condition: '',
-    price: '',
-    image: null,
-  });
-  const [filters, setFilters] = useState({
-    category: '',
-    condition: '',
-  });
+  const [loading, setLoading] = useState(true);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewProduct((prev) => ({ ...prev, [name]: value }));
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.from("products").select("*");
+      if (error) throw error;
+      setProducts(data);
+    } catch (error) {
+      console.error("Error fetching products:", error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    setNewProduct((prev) => ({ ...prev, image: URL.createObjectURL(file) }));
+  const handleAddToCart = (productId) => {
+    console.log("Add to cart clicked for product ID:", productId);
+    // Implement add-to-cart functionality here
   };
-
-  const handleAddProduct = (e) => {
-    e.preventDefault();
-    setProducts((prev) => [...prev, newProduct]);
-    setNewProduct({ name: '', category: '', condition: '', price: '', image: null });
-  };
-
-  const filteredProducts = products.filter(
-    (product) =>
-      (!filters.category || product.category === filters.category) &&
-      (!filters.condition || product.condition === filters.condition)
-  );
 
   return (
-    <div className="marketplace-container">
-      {/* Header Section */}
-      <div className="marketplace-header">
-        <h1>Welcome to the Marketplace</h1>
-        <p className="promo-banner">10% DISCOUNT EVERY WEEKEND</p>
-        <button className="promo-button">Promo: Discounts Inside</button>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="action-buttons">
-        <button className="shop-button">Shop From Us</button>
-        <button className="sell-button">Sell With Us</button>
-      </div>
-
-      {/* Product Filters */}
-      <div className="filters">
-        <select
-          name="category"
-          value={filters.category}
-          onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-          className="filter-select"
-        >
-          <option value="">Select Category</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Clothing">Clothing</option>
-          <option value="Home">Home</option>
-        </select>
-        <select
-          name="condition"
-          value={filters.condition}
-          onChange={(e) => setFilters({ ...filters, condition: e.target.value })}
-          className="filter-select"
-        >
-          <option value="">Select Condition</option>
-          <option value="New">New</option>
-          <option value="Used">Used</option>
-        </select>
-      </div>
-
-      {/* Product Listing */}
-      <div className="product-listing">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product, index) => (
-            <div key={index} className="product-card">
-              <img src={product.image} alt={product.name} className="product-image" />
-              <h3>{product.name}</h3>
-              <p>Category: {product.category}</p>
-              <p>Condition: {product.condition}</p>
-              <p>Price: ${product.price}</p>
+    <section className="marketplace-section">
+      <h1 className="heading">Welcome to Our Marketplace</h1>
+      {loading ? (
+        <div className="loading-container">
+          <p className="loading">Loading products...</p>
+        </div>
+      ) : products.length > 0 ? (
+        <div className="products-grid">
+          {products.map((product) => (
+            <div className="product-card" key={product.id}>
+              <img
+                src={product.image_url}
+                alt={product.name}
+                className="product-image"
+              />
+              <div className="product-info">
+                <h2 className="product-name">{product.name}</h2>
+                <p className="product-description">{product.description}</p>
+                <p className="product-price">KSh {product.price}</p>
+                <button
+                  className="add-to-cart-button"
+                  onClick={() => handleAddToCart(product.id)}
+                >
+                  Add to Cart
+                </button>
+              </div>
             </div>
-          ))
-        ) : (
-          <p>No products listed yet.</p>
-        )}
-      </div>
-
-      {/* Add Product Form */}
-      <div className="add-product-form">
-        <h2>Add a Product</h2>
-        <form onSubmit={handleAddProduct}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Product Name"
-            value={newProduct.name}
-            onChange={handleInputChange}
-            className="form-input"
-          />
-          <select
-            name="category"
-            value={newProduct.category}
-            onChange={handleInputChange}
-            className="form-input"
-          >
-            <option value="">Select Category</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Home">Home</option>
-          </select>
-          <select
-            name="condition"
-            value={newProduct.condition}
-            onChange={handleInputChange}
-            className="form-input"
-          >
-            <option value="">Select Condition</option>
-            <option value="New">New</option>
-            <option value="Used">Used</option>
-          </select>
-          <input
-            type="number"
-            name="price"
-            placeholder="Price"
-            value={newProduct.price}
-            onChange={handleInputChange}
-            className="form-input"
-          />
-          <input
-            type="file"
-            onChange={handleImageUpload}
-            className="form-input"
-          />
-          {newProduct.image && (
-            <div className="image-preview">
-              <img src={newProduct.image} alt="Image preview" className="preview-image" />
-            </div>
-          )}
-          <button type="submit" className="submit-button">
-            Add Product
-          </button>
-        </form>
-      </div>
-    </div>
+          ))}
+        </div>
+      ) : (
+        <p className="no-products">No products available at the moment.</p>
+      )}
+    </section>
   );
 };
 
-export default Marketplace;
+export default MarketplaceSection;
