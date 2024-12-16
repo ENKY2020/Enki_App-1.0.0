@@ -11,7 +11,7 @@ import Podcast from './Podcast'; // Import the Podcast component
 import LearningHub from './LearningHub'; // Import the LearningHub component
 import ContactUs from './ContactUs'; // Import ContactUs component
 import Footer from './Footer'
-import AdminPanel from './components/AdminPanel'; // Import AdminPanel
+import AdminPanel from './Header/AdminPanel'; // Import AdminPanel
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;

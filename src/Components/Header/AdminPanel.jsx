@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient'; // Import Supabase client
 import { useNavigate } from 'react-router-dom'; // For redirecting non-admin users
-import './AdminPanel.css';
+import '.components/AdminPanel.css';
 
 const AdminPanel = () => {
   const [products, setProducts] = useState([]);
