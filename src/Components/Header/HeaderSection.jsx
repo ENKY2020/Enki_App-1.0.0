@@ -1,4 +1,3 @@
-// src/components/HeaderSection.jsx
 import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import "./HeaderSection.css";
@@ -8,21 +7,37 @@ const Header = () => {
   const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
-    // Check if the user is authenticated
-    const user = supabase.auth.user();
-    if (user) {
-      setIsAuthenticated(true);
-      // Optionally, you can fetch the user's role from your database if it's not available in the user object
-      setUserRole(user.role); // Assuming the user object has a 'role' property
-    } else {
-      setIsAuthenticated(false);
-    }
+    // Check authentication and fetch role
+    const fetchUserRole = async () => {
+      const user = supabase.auth.user();
+      if (user) {
+        setIsAuthenticated(true);
 
-    // You can also listen for changes in auth state
+        // Fetch role from the profiles table
+        const { data, error } = await supabase
+          .from("profiles") // Adjust table name if different
+          .select("role")
+          .eq("id", user.id)
+          .single();
+
+        if (error) {
+          console.error("Error fetching user role:", error);
+        } else {
+          setUserRole(data?.role);
+        }
+      } else {
+        setIsAuthenticated(false);
+        setUserRole(null);
+      }
+    };
+
+    fetchUserRole();
+
+    // Listen for changes in auth state
     const authListener = supabase.auth.onAuthStateChange((event, session) => {
       if (session) {
         setIsAuthenticated(true);
-        setUserRole(session.user.role); // Adjust based on your session structure
+        fetchUserRole(); // Refetch role on login
       } else {
         setIsAuthenticated(false);
         setUserRole(null);
