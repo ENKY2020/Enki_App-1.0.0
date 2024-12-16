@@ -271,5 +271,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>
 );
+<Routes>
+  {/* other routes */}
+  <Route path="/admin" element={<AdminPanel />} />
+</Routes>
+
 
 export default App;
