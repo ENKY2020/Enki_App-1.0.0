@@ -1,5 +1,6 @@
-import React, { useState } from 'react'; // Import useState from React
+import React, { useState , useEffect } from 'react'; // Import useState from React
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Add routing
 import './App.css'; // Ensure your styles are updated accordingly
 import './Services';  // Import Services component
 import './Services.css';
@@ -10,6 +11,7 @@ import Podcast from './Podcast'; // Import the Podcast component
 import LearningHub from './LearningHub'; // Import the LearningHub component
 import ContactUs from './ContactUs'; // Import ContactUs component
 import Footer from './Footer'
+import AdminPanel from './AdminPanel'; // Import AdminPanel
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
@@ -18,6 +20,41 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // App component declaration (use the functional component with hooks)
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Track authentication state
+  const [adminEmail, setAdminEmail] = useState('');
+  const [adminPassword, setAdminPassword] = useState('RICH2024!'); // Default password
+  useEffect(() => {
+    // Check if the user is authenticated
+    const checkAuth = async () => {
+      const user = supabase.auth.user();
+      if (user) {
+        setIsAuthenticated(true);
+        setAdminEmail(user.email);
+      } else {
+        setIsAuthenticated(false);
+      }
+    };
+    checkAuth();
+  }, []);
+  const handleLogin = async () => {
+    const { user, error } = await supabase.auth.signInWithPassword({
+      email: adminEmail,
+      password: adminPassword,
+    });
+    if (error) {
+      alert('Authentication failed: ' + error.message);
+    } else {
+      setIsAuthenticated(true);
+    }
+  };
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsAuthenticated(false);
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
   const [product, setProduct] = useState({
     name: '',
     price: '',
@@ -63,9 +100,9 @@ function App() {
     setPreviewImage(null);
   };
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+  
+  setMenuOpen(!menuOpen);
+};
 
   return (
     <div className="App">
@@ -223,9 +260,10 @@ function App() {
       <LearningHub /> {/* This adds the LearningHub component below the Podcast section */}
       <ContactUs />
       <Footer/>
+
     </div>
   );
-}
+
 
 // Ensure your App is properly rendered in the DOM
 ReactDOM.createRoot(document.getElementById('root')).render(
