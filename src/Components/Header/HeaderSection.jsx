@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
-import "./HeaderSection.css";
+import ".component/HeaderSection.css";
 
 const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
