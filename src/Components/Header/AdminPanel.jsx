@@ -1,12 +1,38 @@
-// src/components/AdminPanel.jsx
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient'; // Import Supabase client
+import { useNavigate } from 'react-router-dom'; // For redirecting non-admin users
 
 const AdminPanel = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate(); // For navigation
 
-  // Fetch pending products from the database
+  // Check if the user is an admin
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const user = supabase.auth.user();
+      if (user) {
+        const { data, error } = await supabase
+          .from('users') // Assuming you have a 'users' table with a 'role' column
+          .select('role')
+          .eq('id', user.id)
+          .single();
+
+        if (error) {
+          console.error('Error fetching user role:', error);
+        } else {
+          setIsAdmin(data?.role === 'admin');
+        }
+      } else {
+        navigate('/login'); // Redirect to login if not authenticated
+      }
+    };
+
+    checkAdmin();
+  }, [navigate]);
+
+  // Fetch pending products
   useEffect(() => {
     const fetchPendingProducts = async () => {
       const { data, error } = await supabase
@@ -22,8 +48,10 @@ const AdminPanel = () => {
       setLoading(false);
     };
 
-    fetchPendingProducts();
-  }, []);
+    if (isAdmin) {
+      fetchPendingProducts();
+    }
+  }, [isAdmin]);
 
   // Approve a product
   const approveProduct = async (productId) => {
@@ -72,10 +100,16 @@ const AdminPanel = () => {
       console.error('Error editing product:', error);
     } else {
       setProducts(products.map(product =>
-        product.id === productId ? { ...product, name: updatedName, description: updatedDescription, price: updatedPrice } : product
+        product.id === productId
+          ? { ...product, name: updatedName, description: updatedDescription, price: updatedPrice }
+          : product
       ));
     }
   };
+
+  if (!isAdmin) {
+    return <p>Access denied. You must be an admin to view this page.</p>;
+  }
 
   return (
     <div>
