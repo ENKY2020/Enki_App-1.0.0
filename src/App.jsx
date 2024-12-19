@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from 'react'; // Import useState from React
+import React, { useState, useEffect } from 'react'; // Import useState from React
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Add routing
 import './App.css'; // Ensure your styles are updated accordingly
@@ -10,18 +10,9 @@ import MarketplaceSection from './MarketplaceSection'; // Import the Marketplace
 import Podcast from './Podcast'; // Import the Podcast component
 import LearningHub from './LearningHub'; // Import the LearningHub component
 import ContactUs from './ContactUs'; // Import ContactUs component
-import Footer from './Footer'
-import AdminPanel from './Header/AdminPanel'; // Import AdminPanel
-import AdminDashboard from "./AdminDashboard";
+import Footer from './Footer';
+import AdminDashboard from './AdminDashboard'; // Import AdminDashboard
 import "./admin-dashboard.css";
-
-function App() {
-  return (
-    <div className="App">
-      <AdminDashboard />
-    </div>
-  );
-}
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
@@ -33,6 +24,7 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Track authentication state
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('RICH2024!'); // Default password
+  
   useEffect(() => {
     // Check if the user is authenticated
     const checkAuth = async () => {
@@ -46,6 +38,7 @@ function App() {
     };
     checkAuth();
   }, []);
+  
   const handleLogin = async () => {
     const { user, error } = await supabase.auth.signInWithPassword({
       email: adminEmail,
@@ -57,6 +50,7 @@ function App() {
       setIsAuthenticated(true);
     }
   };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setIsAuthenticated(false);
@@ -65,6 +59,7 @@ function App() {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+  
   const [product, setProduct] = useState({
     name: '',
     price: '',
@@ -110,10 +105,6 @@ function App() {
     setPreviewImage(null);
   };
 
-  
-  setMenuOpen(!menuOpen);
-};
-
   return (
     <div className="App">
       {/* Sticky Header */}
@@ -135,6 +126,8 @@ function App() {
           <a href="#contact">Contact Us</a>
           <a href="#login">Login</a>
           <a href="#signup">Sign Up</a>
+          {/* Admin Dashboard link added */}
+          <a href="/admin">Admin Dashboard</a>
         </div>
       </header>
 
@@ -148,143 +141,64 @@ function App() {
       </section>
 
       {/* Professional Services Section */}
-<section className="services">
-  <h2>Professional Services</h2> {/* Corrected closing tag */}
-  <p>Quality services at competitive rates</p>
+      <section className="services">
+        <h2>Professional Services</h2> {/* Corrected closing tag */}
+        <p>Quality services at competitive rates</p>
 
-  <div className="services-grid">
-    {/* Box 1: Document Services */}
-    <div className="service-box">
-      <h3>Document Services</h3>
-      <p>Professional CV, Portfolio & Letter Writing</p>
-      <ul>
-        <li>Professional CV Typesetting: KSh 350</li>
-        <li>International CV Typesetting: KSh 500</li>
-        <li>Portfolio Creation: KSh 1500</li>
-        <li>Cover Letters: KSh 150</li>
-        <li>Recommendation Letters: KSh 200</li>
-        <li>CV Revamps: KSh 100</li>
-      </ul>
-      <a
-        href="https://wa.me/254768063078"
-        className="whatsapp-button"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Inquire via WhatsApp
-      </a>
-    </div>
-
-    {/* Box 2: Government Services */}
-    <div className="service-box">
-      <h3>Government Services</h3>
-      <p>E-Citizen & KRA Services</p>
-      <ul>
-        <li>Police Clearance Certificate</li>
-        <li>Driving License Application</li>
-        <li>SHA Services</li>
-        <li>NSSF Services</li>
-        <li>KRA Services</li>
-      </ul>
-      <a
-        href="https://wa.me/254768063078"
-        className="whatsapp-button"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Inquire via WhatsApp
-      </a>
-    </div>
-
-    {/* Box 3: Academic & Business */}
-    <div className="service-box">
-      <h3>Academic & Business</h3>
-      <p>Research Projects & Business Plans</p>
-      <ul>
-        <li>Academic Research Projects: KSh 3500</li>
-        <li>Business Plans: KSh 2500</li>
-        <li>Report Writing: KSh 1500</li>
-      </ul>
-      <a
-        href="https://wa.me/254768063078"
-        className="whatsapp-button"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Inquire via WhatsApp
-      </a>
-    </div>
-
-    {/* Box 4: Travel Services */}
-    <div className="service-box">
-      <h3>Travel Services</h3>
-      <p>Visa & Green Card Applications</p>
-      <ul>
-        <li>Green Card DV Lottery (Single): KSh 400</li>
-        <li>Green Card DV Lottery (Family): KSh 500</li>
-        <li>USA Visit Visa Application: KSh 1500</li>
-        <li>Kenyan Visa Passport: KSh 700</li>
-      </ul>
-      <a
-        href="https://wa.me/254768063078"
-        className="whatsapp-button"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Inquire via WhatsApp
-      </a>
-    </div>
-
-    {/* Box 5: Web Development */}
-    <div className="service-box">
-      <h3>Web Development</h3>
-      <p>Website Packages</p>
-      <ul>
-        <li>Static Website (1-5 pages): KSh 5,000 - KSh 20,000</li>
-        <li>Landing Page: KSh 10,000 - KSh 20,000</li>
-        <li>Small Business Website (several pages): KSh 20,000 - KSh 30,000</li>
-        <li>E-commerce Website (1-30 products): KSh 25,000 - KSh 50,000</li>
-        <li>Corporate Website (advanced functionality): KSh 45,000 - KSh 90,000</li>
-        <li>Custom E-commerce Website: KSh 250,000+</li>
-        <li>Ongoing Maintenance: KSh 2,000 - KSh 6,000 per year</li>
-      </ul>
-      <a
-        href="https://wa.me/254768063078"
-        className="whatsapp-button"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Inquire via WhatsApp
-      </a>
-    </div>
-  </div>
-</section>
+        <div className="services-grid">
+          {/* Service Boxes */}
+          <div className="service-box">
+            <h3>Document Services</h3>
+            <p>Professional CV, Portfolio & Letter Writing</p>
+            <ul>
+              <li>Professional CV Typesetting: KSh 350</li>
+              <li>International CV Typesetting: KSh 500</li>
+              <li>Portfolio Creation: KSh 1500</li>
+              <li>Cover Letters: KSh 150</li>
+              <li>Recommendation Letters: KSh 200</li>
+              <li>CV Revamps: KSh 100</li>
+            </ul>
+            <a
+              href="https://wa.me/254768063078"
+              className="whatsapp-button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Inquire via WhatsApp
+            </a>
+          </div>
+          {/* Add more service boxes here... */}
+        </div>
+      </section>
 
       {/* Marketplace Section */}
       <MarketplaceSection /> 
 
       {/* Podcast Section Below Marketplace */}
-      <Podcast /> {/* This ensures the Podcast component shows up below the Marketplace Section */}
+      <Podcast />
 
       {/* LearningHub Section */}
-      <LearningHub /> {/* This adds the LearningHub component below the Podcast section */}
+      <LearningHub />
+
       <ContactUs />
-      <Footer/>
+      <Footer />
 
     </div>
   );
+}
 
-
-// Ensure your App is properly rendered in the DOM
+// Routing Setup
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Routes>
+        {/* Define the route for Admin Dashboard */}
+        <Route path="/admin" element={<AdminDashboard />} />
+        {/* Other routes can go here */}
+      </Routes>
+      <App />
+    </Router>
   </React.StrictMode>
 );
-<Routes>
-  {/* other routes */}
-  <Route path="/admin" element={<AdminPanel />} />
-</Routes>
-
 
 export default App;
