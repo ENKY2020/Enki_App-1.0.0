@@ -4,9 +4,10 @@
   "description": "Enki App built with React and Vite",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "keywords": [
     "vite",
@@ -16,7 +17,7 @@
   "author": "Enky Lion",
   "license": "ISC",
   "dependencies": {
-    "@supabase/supabase-js": "^2.47.7",
+    "@supabase/supabase-js": "^2.47.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
