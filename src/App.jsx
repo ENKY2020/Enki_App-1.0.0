@@ -12,6 +12,16 @@ import LearningHub from './LearningHub'; // Import the LearningHub component
 import ContactUs from './ContactUs'; // Import ContactUs component
 import Footer from './Footer'
 import AdminPanel from './Header/AdminPanel'; // Import AdminPanel
+import AdminDashboard from "./AdminDashboard";
+import "./admin-dashboard.css";
+
+function App() {
+  return (
+    <div className="App">
+      <AdminDashboard />
+    </div>
+  );
+}
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
