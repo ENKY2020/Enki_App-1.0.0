@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import "./HeaderSection.css"; // Fixed the CSS import path
 
-const Header = () => {
+const HeaderSection = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [user, setUser] = useState(null); // Store the user details
@@ -100,7 +100,7 @@ const Header = () => {
           {/* Admin Panel for authenticated admin users */}
           {isAuthenticated && userRole === "admin" && (
             <li>
-              <a href="/admin">Admin Dashboard</a>
+              <a href="/admin-dashboard">Admin Dashboard</a> {/* Link to Admin Dashboard */}
             </li>
           )}
           {/* Login, Signup, and Logout Buttons */}
@@ -124,4 +124,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderSection;
