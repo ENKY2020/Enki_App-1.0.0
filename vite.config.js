@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+const path = require('path');
 
 export default defineConfig({
   root: './',  // Ensure the root is set to your project folder
@@ -14,5 +15,4 @@ export default defineConfig({
       '@components': path.resolve(__dirname, './src/Components'),
     },
   },
-  
 });
