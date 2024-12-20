@@ -12,7 +12,7 @@ import LearningHub from './LearningHub'; // Import the LearningHub component
 import ContactUs from './ContactUs'; // Import ContactUs component
 import Footer from './Footer';
 import AdminDashboard from './AdminDashboard'; // Import AdminDashboard
-import "./admin-dashboard.css";
+import "./AdminDashboard.css";
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;

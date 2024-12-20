@@ -1,53 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
-import ".component/HeaderSection.css";
+import "./HeaderSection.css"; // Fixed the CSS import path
 
 const Header = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
+  const [user, setUser] = useState(null); // Store the user details
 
   useEffect(() => {
-    // Check authentication and fetch role
-    const fetchUserRole = async () => {
-      const user = supabase.auth.user();
-      if (user) {
+    const fetchUserDetails = async () => {
+      const currentUser = supabase.auth.user();
+      if (currentUser) {
         setIsAuthenticated(true);
+        setUser(currentUser);
 
-        // Fetch role from the profiles table
-        const { data, error } = await supabase
-          .from("profiles") // Adjust table name if different
-          .select("role")
-          .eq("id", user.id)
-          .single();
-
-        if (error) {
-          console.error("Error fetching user role:", error);
+        // For development, hardcoding admin access by email
+        if (currentUser.email === "your-admin-email@example.com") {
+          setUserRole("admin");
         } else {
-          setUserRole(data?.role);
+          // Fetch role from the profiles table
+          const { data, error } = await supabase
+            .from("profiles")
+            .select("role")
+            .eq("id", currentUser.id)
+            .single();
+
+          if (error) {
+            console.error("Error fetching user role:", error);
+          } else {
+            setUserRole(data?.role || "user");
+          }
         }
       } else {
         setIsAuthenticated(false);
+        setUser(null);
         setUserRole(null);
       }
     };
 
-    fetchUserRole();
+    fetchUserDetails();
 
-    // Listen for changes in auth state
-    const authListener = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
-        setIsAuthenticated(true);
-        fetchUserRole(); // Refetch role on login
+        fetchUserDetails();
       } else {
         setIsAuthenticated(false);
+        setUser(null);
         setUserRole(null);
       }
     });
 
     return () => {
-      authListener.subscription.unsubscribe();
+      subscription.unsubscribe();
     };
   }, []);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error during logout:", error);
+    } else {
+      setIsAuthenticated(false);
+      setUser(null);
+      setUserRole(null);
+    }
+  };
 
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
@@ -80,10 +97,25 @@ const Header = () => {
           <li>
             <button onClick={() => scrollToSection("contactus")}>Contact Us</button>
           </li>
-          {/* Render Admin Panel link only if authenticated and is an admin */}
+          {/* Admin Panel for authenticated admin users */}
           {isAuthenticated && userRole === "admin" && (
             <li>
-              <a href="/admin">Admin Panel</a>
+              <a href="/admin">Admin Dashboard</a>
+            </li>
+          )}
+          {/* Login, Signup, and Logout Buttons */}
+          {!isAuthenticated ? (
+            <>
+              <li>
+                <a href="/login">Login</a>
+              </li>
+              <li>
+                <a href="/signup">Sign Up</a>
+              </li>
+            </>
+          ) : (
+            <li>
+              <button onClick={handleLogout}>Logout</button>
             </li>
           )}
         </ul>
