@@ -10,8 +10,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': '/src',
-      '@components': '/src/Components',
+      '@': './src',
+      '@components': './src/Components',
     },
   },
 });
