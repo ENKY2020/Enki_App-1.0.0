@@ -3,6 +3,7 @@ body {
   font-family: 'Roboto', 'Poppins', 'Inter', sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f4f4f4; /* Light background color for the body */
 }
 
 /* Sticky Header */
@@ -17,108 +18,73 @@ body {
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease-in-out;
+  backdrop-filter: blur(5px); /* Optional: adds blur effect to background */
 }
 
 /* Branding */
-.branding .powered-by {
+.branding .brand-link {
   text-decoration: none;
   color: royalblue;
   font-weight: bold;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Navigation */
-.main-nav {
-  display: flex;
-  gap: 15px;
-}
-
-.main-nav ul {
+.nav-links ul {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.main-nav li a {
+.nav-links li {
+  margin-right: 15px;
+}
+
+.nav-links li a,
+.nav-links li button {
   text-decoration: none;
   color: darkblue;
+  font-size: 1rem;
+  font-weight: normal;
+  cursor: pointer;
   transition: color 0.3s ease;
 }
 
-.main-nav li a:hover {
+.nav-links li a:hover,
+.nav-links li button:hover {
   color: orange;
 }
 
 /* Admin Dashboard Link */
-.main-nav li a {
-  font-size: 1rem;
-  font-weight: normal;
-}
-
-.main-nav li a.admin-link {
+.nav-links li a.admin-link {
   font-weight: bold; /* Admin link in bold */
   color: #d9534f; /* Admin link color */
 }
 
-.main-nav li a.admin-link:hover {
+.nav-links li a.admin-link:hover {
   color: #c9302c; /* Darker shade for hover */
 }
 
 /* Auth Buttons */
-.auth-buttons .login-button {
+.auth-buttons button {
   background: none;
   border: none;
   color: darkred;
-  cursor: pointer;
   font-size: 1rem;
+  cursor: pointer;
   transition: color 0.3s ease;
 }
 
-.auth-buttons .login-button:hover {
+.auth-buttons button:hover {
   color: red;
-}
-
-/* Hamburger Menu */
-.hamburger-menu {
-  display: none; /* Hidden on larger screens */
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.hamburger-icon {
-  width: 25px;
-  height: 2px;
-  background-color: darkblue;
-  display: block;
-  position: relative;
-}
-
-.hamburger-icon::after,
-.hamburger-icon::before {
-  content: '';
-  position: absolute;
-  width: 25px;
-  height: 2px;
-  background-color: darkblue;
-  transition: transform 0.3s ease;
-}
-
-.hamburger-icon::before {
-  top: -8px;
-}
-
-.hamburger-icon::after {
-  top: 8px;
-}
-
-.main-nav.open {
-  display: flex;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .main-nav {
+  .nav-links {
     display: none;
     flex-direction: column;
     gap: 10px;
@@ -128,9 +94,50 @@ body {
     background-color: rgba(255, 255, 255, 0.95);
     padding: 15px;
     border-radius: 8px;
+    width: 200px;
   }
 
   .hamburger-menu {
     display: block;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .hamburger-icon {
+    width: 25px;
+    height: 2px;
+    background-color: darkblue;
+    display: block;
+    position: relative;
+  }
+
+  .hamburger-icon::after,
+  .hamburger-icon::before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 2px;
+    background-color: darkblue;
+    transition: transform 0.3s ease;
+  }
+
+  .hamburger-icon::before {
+    top: -8px;
+  }
+
+  .hamburger-icon::after {
+    top: 8px;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+}
+
+/* Desktop View */
+@media (min-width: 769px) {
+  .hamburger-menu {
+    display: none;
   }
 }

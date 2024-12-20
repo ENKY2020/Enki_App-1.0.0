@@ -8,4 +8,11 @@ export default defineConfig({
       input: 'index.html',  // Make sure the entry point is index.html
     },
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/Components'),
+    },
+  },
+  
 });

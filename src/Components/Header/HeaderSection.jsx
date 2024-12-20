@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
-import "./HeaderSection.css"; // Fixed the CSS import path
+import "./HeaderSection.css"; // Ensure this file exists for styling
 
 const HeaderSection = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [user, setUser] = useState(null); // Store the user details
 
+  // Fetch user details and handle authentication state
   useEffect(() => {
     const fetchUserDetails = async () => {
       const currentUser = supabase.auth.user();
@@ -14,7 +15,7 @@ const HeaderSection = () => {
         setIsAuthenticated(true);
         setUser(currentUser);
 
-        // For development, hardcoding admin access by email
+        // For development: Hardcoding admin access by email
         if (currentUser.email === "your-admin-email@example.com") {
           setUserRole("admin");
         } else {
@@ -40,6 +41,7 @@ const HeaderSection = () => {
 
     fetchUserDetails();
 
+    // Listen for auth state changes
     const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session) {
         fetchUserDetails();
@@ -55,6 +57,7 @@ const HeaderSection = () => {
     };
   }, []);
 
+  // Logout handler
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -66,6 +69,7 @@ const HeaderSection = () => {
     }
   };
 
+  // Smooth scroll to sections
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
     if (section) {
@@ -92,18 +96,18 @@ const HeaderSection = () => {
             <button onClick={() => scrollToSection("podcast")}>Podcast</button>
           </li>
           <li>
-            <button onClick={() => scrollToSection("learninghub")}>LearningHub</button>
+            <button onClick={() => scrollToSection("learninghub")}>Learning Hub</button>
           </li>
           <li>
             <button onClick={() => scrollToSection("contactus")}>Contact Us</button>
           </li>
-          {/* Admin Panel for authenticated admin users */}
+          {/* Admin Dashboard Link for Admin Users */}
           {isAuthenticated && userRole === "admin" && (
             <li>
-              <a href="/admin-dashboard">Admin Dashboard</a> {/* Link to Admin Dashboard */}
+              <a href="/admin-dashboard">Admin Dashboard</a>
             </li>
           )}
-          {/* Login, Signup, and Logout Buttons */}
+          {/* Authentication Buttons */}
           {!isAuthenticated ? (
             <>
               <li>

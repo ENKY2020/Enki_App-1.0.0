@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AdminDashboard from "./components/Header/AdminDashboard";
+import AdminDashboard from "./Components/AdminDashboard"; // Adjusted path
 import App from "./App";
-import Header from "./components/Header";
+import HeaderSection from "./Components/Header/HeaderSection"; // Correct import path
 
 function Main() {
   return (
     <Router>
-      <Header /> {/* Include Header in the main layout */}
+      <HeaderSection /> {/* Updated to use HeaderSection */}
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
