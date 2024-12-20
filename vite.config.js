@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import path from 'path'; // Change to ES module import
 
 export default defineConfig({
   root: './',  // Ensure the root is set to your project folder
@@ -10,8 +11,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': './src',
-      '@components': './src/Components',
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/Components'),
     },
   },
 });
