@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Enki App built with React and Vite",
   "main": "index.js",
- "scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "serve": "vite preview"
-},
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
   "keywords": [
     "vite",
     "react",
@@ -29,6 +29,9 @@
     "@babel/plugin-transform-private-property-in-object": "^7.25.9",
     "@vitejs/plugin-react": "^4.3.4",
     "vite": "^4.0.0"
+  },
+  "engines": {
+    "node": "16.x"
   },
   "browserslist": {
     "production": [

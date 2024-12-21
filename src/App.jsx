@@ -5,7 +5,7 @@ import './App.css'; // Ensure your styles are updated accordingly
 import './Services';  // Import Services component
 import './Services.css';
 import { createClient } from '@supabase/supabase-js';
-import Header from './Components/Header/HeaderSection';
+import HeaderSection from './Components/Header/HeaderSection';
 import MarketplaceSection from './MarketplaceSection'; // Import the MarketplaceSection component correctly
 import Podcast from './Podcast'; // Import the Podcast component
 import LearningHub from './LearningHub'; // Import the LearningHub component
