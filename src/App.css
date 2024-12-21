@@ -1,41 +1,12 @@
-/* src/App.css */
+/* Adding Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@400;600&family=Inter:wght@400;500&display=swap');
 
-/* Basic Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* General Styling */
+body {
+  font-family: 'Inter', sans-serif; /* Modern font for main text */
+  background-color: #f4f4f4; /* Light background color for the body */
+  color: #333; /* Default text color */
 }
-
-/* Styling the sticky header */
-.sticky-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white; /* White background */
-  color: #333; /* Dark text color */
-  padding: 10px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
-}
-
-.sticky-header .left {
-  font-size: 16px;
-}
-
-.sticky-header .right a {
-  color: #333; /* Dark text for navigation */
-  margin-left: 20px;
-  text-decoration: none;
-}
-
-.sticky-header .right a:hover {
-  text-decoration: underline;
-}
-
-/* Hero Section Styles */
 .hero-container {
   background-color: royalblue; /* Royal blue background */
   text-align: center;
@@ -45,8 +16,9 @@
 .hero-text h1 {
   font-size: 3rem;
   margin-bottom: 20px;
-  font-weight: bold;
+  font-weight: 700; /* Stronger font weight */
   color: white; /* White text for title */
+  text-transform: uppercase; /* Uppercase for extra emphasis */
 }
 
 .hero-text p {
@@ -71,26 +43,40 @@
 .explore-button:hover {
   background-color: #f0f0f0;
 }
-
-/* Professional Services Section */
-.professional-services {
-  padding: 40px 20px;
-  background-color: #f4f4f4;
-  text-align: center;
+.sticky-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff; /* White background for header */
+  color: #333; /* Dark text color */
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
-.professional-services h2 {
-  font-size: 2.5rem;
+.sticky-header .left {
+  font-size: 16px;
+}
+
+.sticky-header .right a {
   color: #333;
-  margin-bottom: 20px;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-.professional-services p {
-  font-size: 1.5rem;
-  color: #555;
-  margin-bottom: 40px;
+.sticky-header .right a:hover {
+  text-decoration: underline;
+  color: royalblue; /* Hover color change */
 }
 
+.sticky-header .right a.active {
+  color: royalblue; /* Active link color */
+}
 .service-box {
   background-color: white;
   padding: 20px;
@@ -98,6 +84,13 @@
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: left;
+  transition: all 0.3s ease;
+}
+
+.service-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid royalblue; /* Border on hover */
 }
 
 .service-box h3 {
@@ -122,18 +115,17 @@
   margin-top: 20px;
   color: royalblue;
 }
-
 @media (max-width: 768px) {
-  .sticky-header {
-    padding: 15px 10px;
-  }
-
   .hero-text h1 {
-    font-size: 2rem;
+    font-size: 2rem; /* Smaller title on mobile */
   }
 
   .hero-text p {
-    font-size: 1.2rem;
+    font-size: 1.2rem; /* Adjust text size */
+  }
+
+  .sticky-header {
+    padding: 15px 10px;
   }
 
   .sticky-header .right {
@@ -169,7 +161,6 @@
   }
 }
 
-/* Larger screen sizes */
 @media (min-width: 1024px) {
   .sticky-header {
     padding: 15px 20px;
@@ -179,81 +170,27 @@
     display: none;
   }
 }
+/* HeroSection.css */
+.hero-container {
+  background-color: royalblue; /* Specific to Hero Section */
+  padding: 80px 20px;
+}
 
-/* Professional Services Section */
+.hero-text h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+}
+
+/* ProfessionalServices.css */
 .professional-services {
-  padding: 40px 20px;
   background-color: #f4f4f4;
-  text-align: center;
+  padding: 40px 20px;
 }
 
-.professional-services h2 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.professional-services p {
-  font-size: 1.5rem;
-  color: #555;
-  margin-bottom: 40px;
-}
-
-/* Services Grid Layout */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-top: 20px;
-}
-
-/* Individual Service Box */
 .service-box {
   background-color: white;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  transition: all 0.3s ease;
-}
-
-.service-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-.service-box h3 {
-  font-size: 1.8rem;
-  margin-bottom: 15px;
-  color: royalblue;
-}
-
-.service-box ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.service-box ul li {
-  font-size: 1.2rem;
-  margin: 8px 0;
-  color: #333;
-}
-
-.service-box .whatsapp-link {
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-}
-
-.whatsapp-icon {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-}
-
-/* Media Queries */
-@media (max-width: 768px) {
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
 }

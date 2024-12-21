@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react'; // Import useState from React
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Add routing
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Add routing
 import './App.css'; // Ensure your styles are updated accordingly
-import './Services';  // Import Services component
-import './Services.css';
+import './Services.css'; 
 import { createClient } from '@supabase/supabase-js';
 import HeaderSection from './Components/Header/HeaderSection';
 import MarketplaceSection from './MarketplaceSection'; // Import the MarketplaceSection component correctly
-import Podcast from './Podcast'; // Import the Podcast component
-import LearningHub from './LearningHub'; // Import the LearningHub component
-import ContactUs from './ContactUs'; // Import ContactUs component
+import Podcast from './Podcast'; 
+import LearningHub from './LearningHub'; 
+import ContactUs from './ContactUs'; 
 import Footer from './Footer';
 import AdminDashboard from './AdminDashboard'; // Import AdminDashboard
 import "./AdminDashboard.css";
@@ -22,23 +21,23 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Track authentication state
-  const [adminEmail, setAdminEmail] = useState('');
-  const [adminPassword, setAdminPassword] = useState('RICH2024!'); // Default password
-  
+  const [adminEmail, setAdminEmail] = useState(localStorage.getItem("adminEmail") || ''); // Persist email in local storage
+  const [adminPassword, setAdminPassword] = useState(localStorage.getItem("adminPassword") || 'RICH2024!'); // Persist password in local storage
+
+  // UseEffect to check authentication state on initial load
   useEffect(() => {
-    // Check if the user is authenticated
     const checkAuth = async () => {
       const user = supabase.auth.user();
       if (user) {
         setIsAuthenticated(true);
-        setAdminEmail(user.email);
       } else {
         setIsAuthenticated(false);
       }
     };
     checkAuth();
   }, []);
-  
+
+  // Handler for logging in
   const handleLogin = async () => {
     const { user, error } = await supabase.auth.signInWithPassword({
       email: adminEmail,
@@ -48,18 +47,24 @@ function App() {
       alert('Authentication failed: ' + error.message);
     } else {
       setIsAuthenticated(true);
+      localStorage.setItem("adminEmail", adminEmail); // Save email in local storage
+      localStorage.setItem("adminPassword", adminPassword); // Save password in local storage
     }
   };
 
+  // Handler for logging out
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setIsAuthenticated(false);
+    localStorage.removeItem("adminEmail");
+    localStorage.removeItem("adminPassword");
   };
 
+  // Menu toggle for the mobile menu
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-  
+
   const [product, setProduct] = useState({
     name: '',
     price: '',
@@ -69,7 +74,8 @@ function App() {
     category: '',
     condition: 'brand new',
   });
-  const [products, setProducts] = useState([]); // State to display listed products
+
+  const [products, setProducts] = useState(JSON.parse(localStorage.getItem('products')) || []); // Persist products in local storage
   const [previewImage, setPreviewImage] = useState(null);
 
   const categories = ['Electronics', 'Fashion', 'Household Items', 'Food & Drinks', 'Seller'];
@@ -92,7 +98,9 @@ function App() {
       alert('Please fill in all required fields');
       return;
     }
-    setProducts([...products, { ...product }]);
+    const updatedProducts = [...products, { ...product }];
+    setProducts(updatedProducts);
+    localStorage.setItem('products', JSON.stringify(updatedProducts)); // Save products in local storage
     setProduct({
       name: '',
       price: '',
@@ -119,14 +127,20 @@ function App() {
         </div>
 
         <div className={`right ${menuOpen ? 'open' : ''}`}>
-        <a href="#admin">AdminDashboard</a>
-          <a href="#services">Services</a>
-          <a href="#marketplace">Marketplace</a>
-          <a href="#podcast">Podcast</a>
-          <a href="#learninghub">LearningHub</a>
-          <a href="#contact">Contact Us</a>
-          <a href="#login">Login</a>
-          <a href="#signup">Sign Up</a>
+          <Link to="/admin">Admin Dashboard</Link>
+          <Link to="#services">Services</Link>
+          <Link to="#marketplace">Marketplace</Link>
+          <Link to="#podcast">Podcast</Link>
+          <Link to="#learninghub">LearningHub</Link>
+          <Link to="#contact">Contact Us</Link>
+          {isAuthenticated ? (
+            <button onClick={handleLogout}>Logout</button>
+          ) : (
+            <div>
+              <Link to="#login" onClick={handleLogin}>Login</Link>
+              <Link to="#signup">Sign Up</Link>
+            </div>
+          )}
         </div>
       </header>
 
@@ -145,7 +159,6 @@ function App() {
         <p>Quality services at competitive rates</p>
 
         <div className="services-grid">
-          {/* Service Boxes */}
           <div className="service-box">
             <h3>Document Services</h3>
             <p>Professional CV, Portfolio & Letter Writing</p>
@@ -166,12 +179,11 @@ function App() {
               Inquire via WhatsApp
             </a>
           </div>
-          {/* Add more service boxes here... */}
         </div>
       </section>
 
       {/* Marketplace Section */}
-      <MarketplaceSection /> 
+      <MarketplaceSection products={products} /> {/* Pass products to Marketplace */}
 
       {/* Podcast Section Below Marketplace */}
       <Podcast />
@@ -179,9 +191,9 @@ function App() {
       {/* LearningHub Section */}
       <LearningHub />
 
+      {/* Contact Us Section */}
       <ContactUs />
       <Footer />
-
     </div>
   );
 }
@@ -191,11 +203,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router>
       <Routes>
-        {/* Define the route for Admin Dashboard */}
+        <Route path="/" element={<App />} />
         <Route path="/admin" element={<AdminDashboard />} />
-        {/* Other routes can go here */}
       </Routes>
-      <App />
     </Router>
   </React.StrictMode>
 );
