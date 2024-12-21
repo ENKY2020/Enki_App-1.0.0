@@ -155,7 +155,7 @@ function App() {
 
       {/* Professional Services Section */}
       <section className="services">
-        <h2>Professional Services</h2> {/* Corrected closing tag */}
+        <h2>Professional Services</h2>
         <p>Quality services at competitive rates</p>
 
         <div className="services-grid">
@@ -202,10 +202,7 @@ function App() {
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-      </Routes>
+      <App />
     </Router>
   </React.StrictMode>
 );

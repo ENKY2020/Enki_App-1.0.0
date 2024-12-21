@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
+import { Link } from "react-router-dom";  // Import Link for client-side navigation
 import "./HeaderSection.css"; // Ensure this file exists for styling
 
 const HeaderSection = () => {
@@ -104,17 +105,17 @@ const HeaderSection = () => {
           {/* Admin Dashboard Link for Admin Users */}
           {isAuthenticated && userRole === "admin" && (
             <li>
-              <a href="/admin-dashboard">Admin Dashboard</a>
+              <Link to="/admin-dashboard">Admin Dashboard</Link>
             </li>
           )}
           {/* Authentication Buttons */}
           {!isAuthenticated ? (
             <>
               <li>
-                <a href="/login">Login</a>
+                <Link to="/login">Login</Link>
               </li>
               <li>
-                <a href="/signup">Sign Up</a>
+                <Link to="/signup">Sign Up</Link>
               </li>
             </>
           ) : (

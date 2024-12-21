@@ -6,9 +6,12 @@ import HeaderSection from "./Components/Header/HeaderSection"; // Correct import
 function Main() {
   return (
     <Router>
-      <HeaderSection /> {/* Updated to use HeaderSection */}
+      {/* The HeaderSection is visible across all pages */}
+      <HeaderSection /> 
       <Routes>
+        {/* Main app route */}
         <Route path="/" element={<App />} />
+        {/* Admin dashboard route */}
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
