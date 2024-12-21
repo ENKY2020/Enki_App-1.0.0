@@ -119,6 +119,7 @@ function App() {
         </div>
 
         <div className={`right ${menuOpen ? 'open' : ''}`}>
+        <a href="#admin">AdminDashboard</a>
           <a href="#services">Services</a>
           <a href="#marketplace">Marketplace</a>
           <a href="#podcast">Podcast</a>
@@ -126,8 +127,6 @@ function App() {
           <a href="#contact">Contact Us</a>
           <a href="#login">Login</a>
           <a href="#signup">Sign Up</a>
-          {/* Admin Dashboard link added */}
-          <a href="/admin">Admin Dashboard</a>
         </div>
       </header>
 
