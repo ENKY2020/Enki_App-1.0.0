@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
+import AppEnki from './App Enki.js';
 
 // Import components
 import HeaderSection from './Components/Header/HeaderSection';
