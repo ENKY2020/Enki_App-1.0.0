@@ -14,6 +14,10 @@ export default defineConfig({
   server: {
     open: true, // Automatically open the app in the browser when starting the dev server
     port: 3000, // Define a custom port (optional)
+    proxy: {
+      // If your app needs to proxy API requests (adjust as necessary)
+      '/api': 'http://localhost:4000',
+    },
   },
   define: {
     'process.env.REACT_APP_SUPABASE_URL': JSON.stringify(process.env.REACT_APP_SUPABASE_URL),

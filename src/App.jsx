@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { supabase } from './lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 
 // Import components
 import HeaderSection from './Components/Header/HeaderSection';
-import MarketplaceSection from './MarketplaceSection';
-import Podcast from './components/Podcast';
-import LearningHub from './components/LearningHub';
-import ContactUs from './components/ContactUs';
-import Footer from './components/Footer';
+import MarketplaceSection from './Components/MarketplaceSection';
+import Podcast from './Components/Podcast';
+import LearningHub from './Components/LearningHub';
+import ContactUs from './Components/ContactUs';
+import Footer from './Components/Footer';
 import AdminDashboard from './Components/AdminDashboard';
-import Login from './components/Login';
-import SignUp from './components/SignUp';
+import Login from './Components/Login';
+import SignUp from './Components/SignUp';
+import './AdminDashboard.css';
+
+// Initialize Supabase
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
