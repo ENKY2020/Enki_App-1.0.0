@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Add routing
-import './App.css'; // Ensure your styles are updated accordingly
-import './Services.css'; 
-import { createClient } from '@supabase/supabase-js';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { supabase } from './lib/supabase';
+
+// Import components
 import HeaderSection from './Components/Header/HeaderSection';
 import MarketplaceSection from './MarketplaceSection'; // Import the MarketplaceSection component correctly
 import Podcast from './Podcast'; 
@@ -19,193 +18,129 @@ const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // App component declaration (use the functional component with hooks)
-function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Track authentication state
-  const [adminEmail, setAdminEmail] = useState(localStorage.getItem("adminEmail") || ''); // Persist email in local storage
-  const [adminPassword, setAdminPassword] = useState(localStorage.getItem("adminPassword") || 'RICH2024!'); // Persist password in local storage
+import MarketplaceSection from './MarketplaceSection';
+import Podcast from './components/Podcast';
+import LearningHub from './components/LearningHub';
+import ContactUs from './components/ContactUs';
+import Footer from './components/Footer';
+import AdminDashboard from './Components/AdminDashboard';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 
-  // UseEffect to check authentication state on initial load
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+
   useEffect(() => {
     const checkAuth = async () => {
-      const user = supabase.auth.user();
-      if (user) {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
         setIsAuthenticated(true);
+
+        // Fetch the user's role
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+
+        if (!error) {
+          setUserRole(data.role || 'user');
+        }
       } else {
         setIsAuthenticated(false);
+        setUserRole(null);
       }
     };
     checkAuth();
   }, []);
 
-  // Handler for logging in
-  const handleLogin = async () => {
-    const { user, error } = await supabase.auth.signInWithPassword({
-      email: adminEmail,
-      password: adminPassword,
-    });
-    if (error) {
-      alert('Authentication failed: ' + error.message);
-    } else {
-      setIsAuthenticated(true);
-      localStorage.setItem("adminEmail", adminEmail); // Save email in local storage
-      localStorage.setItem("adminPassword", adminPassword); // Save password in local storage
-    }
-  };
-
-  // Handler for logging out
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setIsAuthenticated(false);
-    localStorage.removeItem("adminEmail");
-    localStorage.removeItem("adminPassword");
+    setUserRole(null);
   };
 
-  // Menu toggle for the mobile menu
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const [product, setProduct] = useState({
-    name: '',
-    price: '',
-    description: '',
-    image: null,
-    whatsapp: '',
-    category: '',
-    condition: 'brand new',
-  });
-
-  const [products, setProducts] = useState(JSON.parse(localStorage.getItem('products')) || []); // Persist products in local storage
-  const [previewImage, setPreviewImage] = useState(null);
-
-  const categories = ['Electronics', 'Fashion', 'Household Items', 'Food & Drinks', 'Seller'];
-  const conditions = ['Refurbished', 'Brand New'];
-
-  // Handler for file upload preview
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setPreviewImage(reader.result);
-      reader.readAsDataURL(file);
-      setProduct({ ...product, image: file });
+  // Route Guard for Admin Dashboard
+  const ProtectedRoute = ({ children }) => {
+    if (!isAuthenticated || userRole !== 'admin') {
+      return <Navigate to="/login" />;
     }
-  };
-
-  // Handler to add a product (frontend only)
-  const handleAddProduct = () => {
-    if (!product.name || !product.price || !product.whatsapp) {
-      alert('Please fill in all required fields');
-      return;
-    }
-    const updatedProducts = [...products, { ...product }];
-    setProducts(updatedProducts);
-    localStorage.setItem('products', JSON.stringify(updatedProducts)); // Save products in local storage
-    setProduct({
-      name: '',
-      price: '',
-      description: '',
-      image: null,
-      whatsapp: '',
-      category: '',
-      condition: 'brand new',
-    });
-    setPreviewImage(null);
+    return children;
   };
 
   return (
     <div className="App">
       {/* Sticky Header */}
-      <header className="sticky-header">
-        <div className="left">Powered by Enky Solutions</div>
+      <HeaderSection />
 
-        {/* Hamburger Menu */}
-        <div className={`hamburger-menu ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}>
-          <div className="line"></div>
-          <div className="line"></div>
-          <div className="line"></div>
-        </div>
+      {/* Routes */}
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <section className="hero-container">
+                <div className="hero-text">
+                  <h1>Your One-Stop ICT Solutions Partner</h1>
+                  <p>Professional IT services, digital marketplace, podcasts, and tech education - all in one place.</p>
+                  <button className="explore-button">Explore Services</button>
+                </div>
+              </section>
 
-        <div className={`right ${menuOpen ? 'open' : ''}`}>
-          <Link to="/admin">Admin Dashboard</Link>
-          <Link to="#services">Services</Link>
-          <Link to="#marketplace">Marketplace</Link>
-          <Link to="#podcast">Podcast</Link>
-          <Link to="#learninghub">LearningHub</Link>
-          <Link to="#contact">Contact Us</Link>
-          {isAuthenticated ? (
-            <button onClick={handleLogout}>Logout</button>
-          ) : (
-            <div>
-              <Link to="#login" onClick={handleLogin}>Login</Link>
-              <Link to="#signup">Sign Up</Link>
-            </div>
-          )}
-        </div>
-      </header>
+              {/* Services Section */}
+              <section className="services" id="services">
+                <h2>Professional Services</h2>
+                <p>Quality services at competitive rates</p>
+                <div className="services-grid">
+                  <div className="service-box">
+                    <h3>Document Services</h3>
+                    <p>Professional CV, Portfolio & Letter Writing</p>
+                    <ul>
+                      <li>Professional CV Typesetting: KSh 350</li>
+                      <li>International CV Typesetting: KSh 500</li>
+                      <li>Portfolio Creation: KSh 1500</li>
+                      <li>Cover Letters: KSh 150</li>
+                      <li>Recommendation Letters: KSh 200</li>
+                      <li>CV Revamps: KSh 100</li>
+                    </ul>
+                    <a
+                      href="https://wa.me/254768063078"
+                      className="whatsapp-button"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Inquire via WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </section>
 
-      {/* Hero Section */}
-      <section className="hero-container">
-        <div className="hero-text">
-          <h1>Your One-Stop ICT Solutions Partner</h1>
-          <p>Professional IT services, digital marketplace, podcasts, and tech education - all in one place.</p>
-          <button className="explore-button">Explore Services</button>
-        </div>
-      </section>
-
-      {/* Professional Services Section */}
-      <section className="services">
-        <h2>Professional Services</h2>
-        <p>Quality services at competitive rates</p>
-
-        <div className="services-grid">
-          <div className="service-box">
-            <h3>Document Services</h3>
-            <p>Professional CV, Portfolio & Letter Writing</p>
-            <ul>
-              <li>Professional CV Typesetting: KSh 350</li>
-              <li>International CV Typesetting: KSh 500</li>
-              <li>Portfolio Creation: KSh 1500</li>
-              <li>Cover Letters: KSh 150</li>
-              <li>Recommendation Letters: KSh 200</li>
-              <li>CV Revamps: KSh 100</li>
-            </ul>
-            <a
-              href="https://wa.me/254768063078"
-              className="whatsapp-button"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Inquire via WhatsApp
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Marketplace Section */}
-      <MarketplaceSection products={products} /> {/* Pass products to Marketplace */}
-
-      {/* Podcast Section Below Marketplace */}
-      <Podcast />
-
-      {/* LearningHub Section */}
-      <LearningHub />
-
-      {/* Contact Us Section */}
-      <ContactUs />
-      <Footer />
+              <MarketplaceSection />
+              <Podcast />
+              <LearningHub />
+              <ContactUs />
+              <Footer />
+            </>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="/marketplace" element={<MarketplaceSection />} />
+        <Route path="/podcast" element={<Podcast />} />
+        <Route path="/learning-hub" element={<LearningHub />} />
+        <Route path="/contact" element={<ContactUs />} />
+      </Routes>
     </div>
   );
 }
-
-// Routing Setup
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </React.StrictMode>
-);
 
 export default App;
