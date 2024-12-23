@@ -10,8 +10,9 @@ import Podcast from './Podcast';
 import LearningHub from './LearningHub'; 
 import ContactUs from './ContactUs'; 
 import Footer from './Footer';
-import AdminDashboard from './AdminDashboard'; // Import AdminDashboard
+import AdminDashboard from '.Components/AdminDashboard'; // Import AdminDashboard
 import "./AdminDashboard.css";
+
 
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
