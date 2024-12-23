@@ -1,36 +1,55 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../supabaseClient"; // Assuming you already have supabase set up
+import { supabase } from "../supabaseClient"; // Ensure correct import
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Fetch all users and products
   useEffect(() => {
     const fetchUsersAndProducts = async () => {
       try {
-        // Fetch users (assuming you have a 'users' table)
+        setLoading(true);
+        setError(null); // Clear any previous errors
+
+        // Fetch users from Supabase
         const { data: usersData, error: usersError } = await supabase
           .from("users")
           .select("*");
 
         if (usersError) throw usersError;
         setUsers(usersData);
+        console.log("Users fetched:", usersData);
 
-        // Fetch products (assuming you have a 'products' table)
+        // Fetch products from Supabase
         const { data: productsData, error: productsError } = await supabase
           .from("products")
           .select("*");
 
         if (productsError) throw productsError;
         setProducts(productsData);
+        console.log("Products fetched:", productsData);
+
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
+        setError("Error fetching data. Please try again later.");
         console.error("Error fetching data:", error);
       }
     };
 
     fetchUsersAndProducts();
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="admin-dashboard">
@@ -52,17 +71,23 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td>
-                  <button>Edit</button>
-                  <button>Delete</button>
-                </td>
+            {users.length > 0 ? (
+              users.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.email}</td>
+                  <td>{user.role}</td>
+                  <td>
+                    <button>Edit</button>
+                    <button>Delete</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4">No users found</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </section>
@@ -80,18 +105,24 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
-              <tr key={product.id}>
-                <td>{product.id}</td>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.status}</td>
-                <td>
-                  <button>Edit</button>
-                  <button>Delete</button>
-                </td>
+            {products.length > 0 ? (
+              products.map((product) => (
+                <tr key={product.id}>
+                  <td>{product.id}</td>
+                  <td>{product.name}</td>
+                  <td>{product.price}</td>
+                  <td>{product.status}</td>
+                  <td>
+                    <button>Edit</button>
+                    <button>Delete</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5">No products found</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </section>
